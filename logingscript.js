@@ -1,3 +1,5 @@
 function doLogin() {
-    alert("Login");
+    let login = document.getElementById("username").value;
+	let password = document.getElementById("password").value;
+    alert(login + " " + password);
 }
