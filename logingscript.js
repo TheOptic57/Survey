@@ -1,0 +1,3 @@
+function doLogin() {
+    alert("Login");
+}
