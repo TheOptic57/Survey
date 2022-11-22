@@ -1,5 +1,26 @@
 function doLogin() {
-    let login = document.getElementById("username").value;
-	let password = document.getElementById("password").value;
-    alert(login + " " + password);
+    let tempumail = "a";
+    let temppassword = "a";
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    localStorage.setItem("email", email);
+    localStorage.setItem("password", password);
+
+
+    if(validlogin()) {
+        window.location.href = "/homepage.html";
+    }
+    else {
+        document.getElementById("loginResult").innerHTML = "Error incorrect password";
+    }
+    
+
+
+    function validlogin() {
+        if(email = tempumail && temppassword == password) {
+            return true;
+        }
+        return false;
+    }
 }
