@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script type="text/javascript" src="/javascript/create.js"></script>
+    <link href="createsurvey.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -20,6 +22,37 @@
             <a class = "px-2 text-light navbar-brand" href="login.html">Log Out</a>
         </nav>
     </div>
-    Survey Creation
+    <br>
+    <div class = "h-100 d-flex align-items-center justify-content-center container">
+        <div class = "col">
+            <div class = "row-sm text-center">
+                <h3>Enter number of questions</h3>
+            </div>
+            <div class = "row-sm text-center">
+                <input class="form-outline mb-4" type="text" id="numquestion" placeholder="#'s' Questions"/>
+                <button class="btn btn-secondary btn-block " type="button" onclick="CreateSurvey();"> Create </button>
+            </div>
+            <div class = "row-sm text-center">
+                <span class = "bg-danger text-white" id = "numresults"> </span>
+            </div>
+        </div>
+    </div>
+    <div id = "copy_to_me" class="Keephidden">
+        <label for="QuestionType">Choose a Question Type:</label>
+        <select name="QuestionType" id="QuestionType">
+            <option value="type1">Type 1</option>
+            <option value="type2">Type 2</option>
+        </select>
+        <br>
+        <div>
+            <label for="Question">Question: </label>
+            <input type="text" id="Question" name="Question" maxlength="200">
+        </div>
+        <br><br>
+    </div>
+    <div id = "add_to_me" class = "showthings">
+
+    </div>
+    <button class="btn btn-secondary btn-block " type="button" onclick="SubmitSurvey();"> Submit </button>
 </body>
 </html>

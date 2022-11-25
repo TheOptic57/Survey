@@ -1,7 +1,7 @@
 Multiple ways to run files on vscode
 
 Method 1) <-recomended way to run both html javascript and css
-1. Install the live surver on vscode extensions
+1. Install the live server on vscode extensions
 2. Click go live on login.html file
 
 
