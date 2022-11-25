@@ -22,13 +22,27 @@ function SubmitSurvey() {
     let numinput = document.getElementById("numquestion").value;
     const arrayofquestion = document.getElementsByName("Question");
     const arrayofquestiontype = document.getElementsByName("QuestionType");
+    let title = document.getElementById("surveyTitle").value;
+    let desc = document.getElementById("surveyDesc").value;
     let questionlist = "";
     let questiontypelist = "";
 
+    if(title===null || title==="" || typeof title === 'undefined') {
+        document.getElementById("blankquestion").innerHTML = "Please fill out all the Title";
+        return
+    }
+    if(desc===null || desc==="" || typeof title === 'undefined') {
+        document.getElementById("blankquestion").innerHTML = "Please fill out all the Description";
+        return
+    }
+    
     for(var i = 1; i <= numinput; i++) {
         questionlist = questionlist + arrayofquestion[i].value + " ";
+        if(arrayofquestion[i].value===null || arrayofquestion[i].value==="") {
+            document.getElementById("blankquestion").innerHTML = "Please fill out all the questions";
+            return
+        }
         questiontypelist = questiontypelist + arrayofquestiontype[i].value + " ";
     }
-    alert(questionlist);
-    alert(questiontypelist);
+    window.location.href = "/homepage.html";
 }
