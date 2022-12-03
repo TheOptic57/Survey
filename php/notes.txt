@@ -1,0 +1,26 @@
+XAMPP
+To get a running server:
+    - download and install XAMPP
+        - you may need to allow access like I had to for MAC
+    - after getting the XAMPP application running you'll be in the homepage
+    - "Manage Servers" tab will allow you to run Apache, MySQL servers locally
+
+To run php file:
+    - make a valid php file with working code
+    - in the "Welcom" page of XAMPP, go to "Open Application Folder"
+    - go into "htdocs" Folder
+    - copy and paste the php file you want to test here
+    - go to a browser and put "localhost/<YourPHPFileName.php>
+    - check that it is working
+
+
+----------------------------------------------------------------------------------
+
+
+
+extra notes:
+Corrected the file path to js file and back to homepage.html
+
+TODO
+
+E

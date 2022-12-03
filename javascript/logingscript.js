@@ -9,7 +9,7 @@ function doLogin() {
 
 
     if(validlogin()) {
-        window.location.href = "/homepage.html";
+        window.location.href = "homepage.html";
     }
     else {
         document.getElementById("loginResult").innerHTML = "Error incorrect password";
