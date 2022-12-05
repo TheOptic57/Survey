@@ -1,5 +1,4 @@
 <?php
-
 function get_request_info()
 {
     return json_decode(file_get_contents('php://input'), true);
@@ -47,10 +46,8 @@ ini_set('display_errors', 1);
 //$configs = include("../config.php");
 mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX); // generates normal errors instead of exceptions
 
-// Get query data : (Parameters [ID] [PAGE] [SEARCH])
-$in_data = get_request_info(); // get_query_params();
+$in_data = get_request_info();
 
-// Connect to database
 $connection = new mysqli('139.144.19.56', 'Jesse', 'Password123!', 'SurveyProject');
 
 // Database connection test
@@ -60,26 +57,17 @@ if($connection->connect_error)
     exit();
 }
 
-$statement = $connection->prepare("SELECT Title, Description, Sid, Start_Date, End_Date, email 
-                                FROM Survey S, T1Answers T1A, T1Questions T1Q, T2Answers T2A, T2Questions T2Q, T
-                                    WHERE email = ?");
+$statement = $connection->prepare("INSERT INTO SurveysAvailable (email, Sid) VALUES (?, ?);");
+$statement->bind_param("si", $in_data["email"], $in_data["Sid"]);
 
-$statement->bind_param("s", $in_data["email"]);
-$statement->execute();
-$result = $statement->get_result();
-    
-$search_results = array();
-$count = 0;
-while($row = $result->fetch_assoc()) {
-    array_push($search_results, $row);
-    $count++;
+// If statement is successful, then return JSON response
+if($statement->execute()) {
+    send_JSON_response("Added user to Survey!"); 
 }
 
-if($count == 0){
-    send_JSON_error("Records Not Found!");
-}
+// Otherwise, error has occured
 else {
-    send_JSON_response($search_results); 
+    send_JSON_error($statement->error);
 }
 
 $statement->close();
