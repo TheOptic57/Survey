@@ -16,9 +16,15 @@ function GetResults() {
     for (var i = 0; i < tempmean2.length; i++) {
         let divClone = currentDiv.cloneNode(true);
         divClone.id = "cloned" + i;
+        //adds all survey information to see
         divClone.innerHTML = "<h4>" + temptitle2[i]  + "</h4>" + "<br>"  + "<br>" + "<h4>" + tempdesc[i]  + "</h4>" + "<h4>" + tempperiod[i]  
         + "</h4>" + "<h4>" + tempquestion[i]  + "</h4>" + "</h4>";
 
+        /*
+        Work in progress in order to grab question data depending on how data is returned
+        */
+
+        // adds button
         divClone.innerHTML = divClone.innerHTML + "<button onclick='saveDataToFile(" + i +")'> Save Data</button>";
         document.getElementById("after").appendChild(divClone);
 
@@ -28,12 +34,15 @@ function GetResults() {
 function saveDataToFile(i) {
     let temp = document.createElement('div');
     /*
+    //works but doesn't save format
     temp.innerHTML = document.getElementById("cloned" + i).innerHTML;
+    //in an attemp to save format
     var textconvert = temp.textContent;
     */
+   //dumb solution wish I have something better
    let textconvert = temptitle2[i] + "\n" + tempdesc[i] + "\n" + tempperiod[i] + "\n" + tempquestion[i]; 
     
-
+    // adds stuff to blob then prompts the users to download and saves in the download folder
     const a = document.createElement('a');
     const file = new Blob([textconvert], {type: 'text/plain', endings:'native'});
   
