@@ -12,7 +12,7 @@ function doLogin() {
 	//	var tmp = {login:login,password:hash};
 	let jsonPayload = JSON.stringify(tmp);
 
-	let url = 'http://localhost/test.php';
+	let url = 'http://localhost/login.php';
 
     let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
