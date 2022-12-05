@@ -7,7 +7,7 @@ To get a running server:
 
 To run php file:
     - make a valid php file with working code
-    - in the "Welcom" page of XAMPP, go to "Open Application Folder"
+    - in the "Welcome" page of XAMPP, go to "Open Application Folder"
     - go into "htdocs" Folder
     - copy and paste the php file you want to test here
     - go to a browser and put "localhost/<YourPHPFileName.php>

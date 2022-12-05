@@ -36,16 +36,15 @@ function send_JSON_error($err)
     echo json_encode($payload);
 }
 
-
 // Will contain utility functions
 //include_once("../util.php");
 
+// Show errors
 ini_set('display_errors', 1);
 
 // Will contain config variables
 //$configs = include("../config.php");
-// Normal errors are generated instead of exceptions.
-mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX);
+mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX); // generates normal errors instead of exceptions
 
 $in_data = get_request_info();
 
@@ -58,26 +57,20 @@ if($connection->connect_error)
     exit();
 }
 
-//i - integer, d - double, s - string, b - BLOB
-$statement = $connection->prepare("SELECT email FROM Users WHERE email = ? AND password = ?;"); // May need to change email & password to variables in DB
-$statement->bind_param("ss", $in_data["email"], $in_data["password"]);
-$statement->execute();
-$result = $statement->get_result();
+$statement = $connection->prepare("INSERT INTO Survey (Title, Description, Start_Date, End_Date, email, Is_Complete) VALUES (?, ?, ?, ?, ?, FALSE);");
+$statement->bind_param("sssssi", $in_data["Title"], $in_data["Description"], $in_data["Start_Date"], $in_data["End_Date"], $in_data["email"], $in_data["Is_Complete"]);
 
-// Check for response from DB
-if($row = $result->fetch_assoc()) // Fetches a result row as an associative array.
-{
-    send_JSON_response($row);
+// If statement is successful, then return JSON response
+if($statement->execute()) {
+    $last_id = $statement->insert_id;
+    send_JSON_response($last_id); 
 }
 
-// If no response, then send error response
-else 
-{
-    send_JSON_error("No Records Found");
+// Otherwise, error has occured
+else {
+    send_JSON_error($statement->error);
 }
 
-// Close DB connections
 $statement->close();
 $connection->close();
-
 ?>

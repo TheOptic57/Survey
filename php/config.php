@@ -1,8 +1,8 @@
 <?php
     return array(
-        'db_host' => '172.31.16.1',
-        'db_username' => 'root',
-        'db_password' => 'AlexCalebJesse',
+        'db_host' => '139.144.19.56',
+        'db_username' => 'Jesse',
+        'db_password' => 'Password123!',
         'db_name' => 'SurveyProject'
         )
 ?>
