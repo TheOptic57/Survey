@@ -28,27 +28,36 @@ function generateSurvey(survey) {
         question.innerHTML = "Question: " + "stuff" + "<br/>";
         getSurvey.appendChild(question);
 
+        //if statement to check if it is type 2 right now its check for even just to see if it works
         if(i % 2 == 0) {
             //<textarea rows = "5" cols = "60" name = "Awnser" id="Awnser" style="width: 80%;">
             const newInput = document.createElement('textarea');
-            newInput.setAttribute('name', "Awnser");
-            newInput.setAttribute('id', "Awnser");
+            newInput.setAttribute('name', "Type2");
             newInput.setAttribute('rows', "5");
             newInput.setAttribute('cols', "60");
             getSurvey.appendChild(newInput);
         }
-
         else {
+            /*
+            <select name="Type2">
+                            <option value="1">1 </option>
+                            <option value="2">2</option>
+                            .
+                            .
+                            .
+                        </select>
+            */
             let newSelect = document.createElement('select');
-            
-            for (let i = 1; i < 6; i++) {
+            newSelect.setAttribute('Name', "Type1");
+
+            for (let j = 1; j < 6; j++) {
+
                 const newOption = document.createElement('option');
-                const optionText = document.createTextNode(i);
+                const optionText = document.createTextNode(j);
                 newOption.appendChild(optionText);
-                newOption.setAttribute('value', i);
+                newOption.setAttribute('value', j);
                 newSelect.appendChild(newOption);
             }
-            
             getSurvey.appendChild(newSelect);
         }
     }

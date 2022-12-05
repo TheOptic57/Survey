@@ -3,6 +3,7 @@ function doRegister() {
     let password = document.getElementById("password").value;
     let repassword = document.getElementById("repassword").value;
 
+    //stores to local storage as a cookie
     localStorage.setItem("email", email);
     localStorage.setItem("password", password);
     
@@ -18,7 +19,7 @@ function doRegister() {
         document.getElementById("registerResult").innerHTML = "Non Matching Password";
     }
 
-
+    //checks if it is a valid email
     function EmailValidation() {
         email = document.getElementById("email").value;
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
