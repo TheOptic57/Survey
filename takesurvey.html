@@ -5,10 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script type="text/javascript" src="/javascript/takesurvey.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body>
+<body onload="GetSurveyTitle()">
     <div class="mx-auto mt-2" style="width: 99%;">
         <nav class="navbar navbar-light bg-secondary">
             <div class="d-flex flex-row">
@@ -20,6 +21,16 @@
             <a class = "px-2 text-light navbar-brand" href="login.html">Log Out</a>
         </nav>
     </div>
-    Take Survey
+    <div class="h-100 my-3 align-items-center container card">
+        <div class = my-3>
+            <h3 id="h3survey">Select a survey to take</h3>
+            <select class="form-select form-select-sm w-25" aria-labelledby="h3survey" name="SurveyTitle" id="SurveyTitle">
+
+            </select>
+        </div>
+        <div id = "getSurvey" class = "mb-3">
+            
+        </div>
+    </div>  
 </body>
 </html>
