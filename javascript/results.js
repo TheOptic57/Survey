@@ -7,18 +7,53 @@ let tempquestion = ["1","2","3","4","5"];
 function GetResults() {
     let tempmean1 = 20;
     let temptitle1 = "TEST TITLE 1"
+
+    let url = 'http://localhost/get_participatingSurvey.php';
+
+    let SurveyTitles = [];
+    let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try {
+		xhr.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				let jsonObject = JSON.parse(xhr.responseText);
+
+				if (jsonObject.status == 'failure') {
+					document.getElementById("nosurvey").innerHTML = "Error: no survey created";
+                    //alert(localStorage.getItem("email"))
+					return;
+				}
+                for(let i = 0; i < jsonObject.response.length; i++) {
+                    SurveyTitles.push(jsonObject.response[i].Title);
+                    //alert(SurveyTitles);
+                }
+                let options = document.getElementById("SurveyTitle");
+                const select = document.querySelector('select'); 
+                for (var i = 0; i < SurveyTitles.length; i++) {
+                    const newOption = document.createElement('option');
+                    const optionText = document.createTextNode(SurveyTitles[i]);
+                    newOption.appendChild(optionText);
+                    localStorage.setItem(jsonObject.response[i].Sid, SurveyTitles[i]);
+                    newOption.setAttribute('value', jsonObject.response[i].Sid);
+                    newOption.setAttribute('onclick', "generateSurvey(this)");
+                    select.appendChild(newOption);
+                }
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch (err) {
+		document.getElementById("nosurvey").innerHTML = err.message;
+	}
+
+
+
+
+
+
+
     let T1Ans, T2Ans, T1Results, T1AnsURL, T2AnsURL;
-
-    
-
-
-
-
-
-
-
-
-
 
     let tmp = { Sid: 2 };
 	let jsonPayload = JSON.stringify(tmp);
@@ -28,18 +63,19 @@ function GetResults() {
   
 
     // Get surveys T1 Answers
-    let xhr = new XMLHttpRequest();
-	xhr.open("POST", T1AnsURL, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    let T1xhr = new XMLHttpRequest();
+	T1xhr.open("POST", T1AnsURL, true);
+	T1xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try {
-		xhr.onreadystatechange = function () {
+		T1xhr.onreadystatechange = function () {
 			if (this.readyState == 4 && this.status == 200) {
-				let jsonObject = JSON.parse(xhr.responseText);
+				let jsonObject = JSON.parse(T1xhr.responseText);
 
                 console.log("test");
 
 				if (jsonObject.status == 'failure') {
-					document.getElementById("loginResult").innerHTML = "Error incorrect Sid";
+                    console.log("failure")
+					//document.getElementById("loginResult").innerHTML = "Error incorrect Sid";
 					return;
 				}
 
@@ -50,38 +86,43 @@ function GetResults() {
                 T1Results = computeResults(T1Ans);
 			}
 		};
-		xhr.send(jsonPayload);
+		T1xhr.send(jsonPayload);
 	}
 	catch (err) {
         console.log("error message: " + err.message);
 		//document.getElementById("loginResult").innerHTML = err.message; // DO we have a place to put errors? **
 	}
 
-    /*
+    let newxhr = new XMLHttpRequest();
     // Get surveys T2 Answers
-    xhr.open("POST", T2AnsURL, true);
-    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    newxhr.open("POST", T2AnsURL, true);
+    newxhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try {
-		xhr.onreadystatechange = function () {
+		newxhr.onreadystatechange = function () {
 			if (this.readyState == 4 && this.status == 200) {
-				let jsonObject = JSON.parse(xhr.responseText);
+				let jsonObject = JSON.parse(newxhr.responseText);
 
-				if (jsonObject.status == 'failure') {
-					document.getElementById("loginResult").innerHTML = "Error incorrect Sid";
+                if(jsonObject.message == "Theres no Type 1 data for this survey!")
+                {
+                    console.log("jsonObject.message");
+                }
+				else if (jsonObject.status == 'failure') {
+                    console.log("failure");
+					//document.getElementById("loginResult").innerHTML = "Error incorrect Sid";
 					return;
 				}
-
-				T2Ans = jsonObject.response;
+                else{
+                    T2Ans = jsonObject.response;
+                    console.log(T2Ans);
+                }
+				
 			}
 		};
-		xhr.send(jsonPayload);
+		newxhr.send(jsonPayload);
 	}
 	catch (err) {
 		document.getElementById("loginResult").innerHTML = err.message; // DO we have a place to put errors? **
 	}
-    */
-
-
 
     //document.getElementById("Copy").innerHTML = "<h4>" + temptitle1  + "</h4>" + "<br>" +  "Mean: " + tempmean1 + "<br>";
 
