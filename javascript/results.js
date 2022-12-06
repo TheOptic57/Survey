@@ -1,13 +1,8 @@
-let tempmean2 = [10,20,30,40,50];
-let temptitle2 = ["1","2","3","4","5"];
-let tempdesc = ["1","2","3","4","5"];
-let tempperiod = ["1","2","3","4","5"];
-let tempquestion = ["1","2","3","4","5"]; 
-
 function GetResults() {
-    let tempmean1 = 20;
-    let temptitle1 = "TEST TITLE 1"
-
+    let email = localStorage.getItem("email");
+    let tmp = {email:email};
+	let jsonPayload = JSON.stringify(tmp);
+    
     let url = 'http://localhost/get_participatingSurvey.php';
 
     let SurveyTitles = [];
@@ -48,11 +43,7 @@ function GetResults() {
 	}
 
 
-
-
-
-
-
+    /*
     let T1Ans, T2Ans, T1Results, T1AnsURL, T2AnsURL;
 
     let tmp = { Sid: 2 };
@@ -140,10 +131,13 @@ function GetResults() {
         */
 
         // adds button
+        /*
         divClone.innerHTML = divClone.innerHTML + "<button onclick='saveDataToFile(" + i +")'> Save Data</button>";
         document.getElementById("after").appendChild(divClone);
 
-    } 
+    }
+    */
+     
     
 }
 function saveDataToFile(i) {
