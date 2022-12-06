@@ -31,7 +31,7 @@ function GetResults() {
                     newOption.appendChild(optionText);
                     localStorage.setItem(jsonObject.response[i].Sid, SurveyTitles[i]);
                     newOption.setAttribute('value', jsonObject.response[i].Sid);
-                    newOption.setAttribute('onclick', "generateSurvey(this)");
+                    newOption.setAttribute('onclick', "generateResults(this)");
                     select.appendChild(newOption);
                 }
 			}
@@ -139,6 +139,81 @@ function GetResults() {
     */
      
     
+}
+
+function generateResults(Sid) {
+    alert(Sid.value);
+    /*
+    let tmp = { Sid: 2 };
+	let jsonPayload = JSON.stringify(tmp);
+
+    T1AnsURL = 'http://localhost/get_type1results.php';
+    T2AnsURL = 'http://localhost/get_type2results.php';
+  
+
+    // Get surveys T1 Answers
+    let T1xhr = new XMLHttpRequest();
+	T1xhr.open("POST", T1AnsURL, true);
+	T1xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try {
+		T1xhr.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				let jsonObject = JSON.parse(T1xhr.responseText);
+
+                console.log("test");
+
+				if (jsonObject.status == 'failure') {
+                    console.log("failure")
+					//document.getElementById("loginResult").innerHTML = "Error incorrect Sid";
+					return;
+				}
+
+				T1Ans = jsonObject.response;
+                console.log(T1Ans);
+
+                // calculates mean and variance.
+                T1Results = computeResults(T1Ans);
+			}
+		};
+		T1xhr.send(jsonPayload);
+	}
+	catch (err) {
+        console.log("error message: " + err.message);
+		//document.getElementById("loginResult").innerHTML = err.message; // DO we have a place to put errors? **
+	}
+
+    let newxhr = new XMLHttpRequest();
+    // Get surveys T2 Answers
+    newxhr.open("POST", T2AnsURL, true);
+    newxhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try {
+		newxhr.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				let jsonObject = JSON.parse(newxhr.responseText);
+
+                if(jsonObject.message == "Theres no Type 1 data for this survey!")
+                {
+                    console.log("jsonObject.message");
+                }
+				else if (jsonObject.status == 'failure') {
+                    console.log("failure");
+					//document.getElementById("loginResult").innerHTML = "Error incorrect Sid";
+					return;
+				}
+                else{
+                    T2Ans = jsonObject.response;
+                    console.log(T2Ans);
+                }
+				
+			}
+		};
+		newxhr.send(jsonPayload);
+	}
+	catch (err) {
+		document.getElementById("loginResult").innerHTML = err.message; // DO we have a place to put errors? **
+	}
+    */
+
 }
 function saveDataToFile(i) {
     let temp = document.createElement('div');

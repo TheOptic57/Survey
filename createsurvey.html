@@ -49,13 +49,13 @@
                     <br>
                     <input type="text" id="surveyEnd" name="surveyEnd" maxlength="40" style="width: 50%;">
                     <br>
-                    <label for="surveyPerson">Person Taking: </label>
-                    <br>
-                    <input type="text" id="surveyPerson" name="surveyPerson" maxlength="40" style="width: 50%;">
-                    <br>
                     <label for="surveyDesc">Description: </label>
                     <br>
                     <textarea rows = "5" cols = "60" name = "surveyDesc" id="surveyDesc" style="width: 100%;">Type Here </textarea>
+                    <br>
+                    <br>
+                    <button class="btn btn-secondary btn-block text-white border border-white" type="button" onclick="SubmitSurvey();"> Submit </button>
+                    <br>
                     <div id = "copy_to_me" class="Keephidden">
                         <br>
                         <label for="QuestionType">Choose a Question Type:</label>
@@ -74,7 +74,16 @@
                     </div>
                     <span id = "blankquestion"  class = "bg-danger text-white"></span>
                     <br>
-                    <button class="btn btn-secondary btn-block text-white border border-white" type="button" onclick="SubmitSurvey();"> Submit </button>
+                    <button class="btn btn-secondary btn-block text-white border border-white" type="button" onclick="SubmitQuestion();"> Submit </button>
+
+                    <br>
+                    <br>
+                    <label for="surveyPerson">Person Taking: </label>
+                    <br>
+                    <input type="text" id="surveyPerson" name="surveyPerson" maxlength="40" style="width: 50%;"> 
+                    <br>
+                    <br>
+                    <button class="btn btn-secondary btn-block text-white border border-white" type="button" onclick="SubmitPerson();"> Submit </button>
                 </div>
             </div>
         </div>

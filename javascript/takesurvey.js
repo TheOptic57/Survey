@@ -83,7 +83,8 @@ function generateSurvey(surveyid) {
                     getSurvey.appendChild(question);
             
                 
-                    if(jsonObject.response[i].T1id === undefined) {
+                    if(typeof jsonObject.response[i].T2id !== 'undefined') {
+                        //alert(typeof jsonObject.response[i].T2id);
                         //<textarea rows = "5" cols = "60" name = "Awnser" id="Awnser" style="width: 80%;">
                         const newInput = document.createElement('textarea');
                         newInput.setAttribute('name', "Question");
@@ -93,7 +94,7 @@ function generateSurvey(surveyid) {
                         typearray.push(2);
                         idarray.push(jsonObject.response[i].T2id)
                     }
-                    else {
+                    else if(typeof jsonObject.response[i].T1id !== 'undefined') {
                         /*
                         <select name="Type2">
                                         <option value="1">1 </option>
@@ -117,6 +118,9 @@ function generateSurvey(surveyid) {
                         getSurvey.appendChild(newSelect);
                         typearray.push(1);
                         idarray.push(jsonObject.response[i].T1id)
+                    }
+                    else {
+
                     }
                 }
                 const button = document.createElement('div');
