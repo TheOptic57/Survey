@@ -6,7 +6,7 @@ function GetResults() {
     let tmp = {email:email};
 	let jsonPayload = JSON.stringify(tmp);
     
-    let url = 'http://localhost/get_participatingSurvey.php';
+    let url = 'http://localhost/get_surveys.php';
 
     let SurveyTitles = [];
     let xhr = new XMLHttpRequest();
