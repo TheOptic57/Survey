@@ -268,7 +268,7 @@ function generateResults(Sid) {
 }
 function saveDataToFile() {
     let temp = document.createElement('div');
-    alert(document.getElementsByName("save").innerHTML);
+    //alert(document.getElementsByName("save").innerHTML);
     //works but doesn't save format
     temp.innerHTML = printarray;
     //in an attemp to save format

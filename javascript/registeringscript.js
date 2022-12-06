@@ -25,7 +25,7 @@ function doRegister() {
     }
 
     //checks if it is a valid email
-    async function EmailValidation() {
+    function EmailValidation() {
         email = document.getElementById("email").value;
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
             return true;
