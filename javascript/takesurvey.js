@@ -111,6 +111,11 @@ function generateSurvey(surveyid) {
                         getSurvey.appendChild(newSelect);
                     }
                 }
+                const button = document.createElement('div');
+                button.innerHTML = "<button onclick='SubmitSurvey()'> Submit</button>";
+                const buttondiv = document.getElementById('buttonenter');
+                buttondiv.appendChild(button);
+                
 			}
 		};
 		xhr.send(jsonPayload);
