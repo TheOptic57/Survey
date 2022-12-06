@@ -1,6 +1,7 @@
 let printarray = "";
 let deleted;
 let whymapitdoesntwork;
+let alldata;
 
 function GetResults() {
     let email = localStorage.getItem("email");
@@ -27,6 +28,7 @@ function GetResults() {
                     SurveyTitles.push(jsonObject.response[i].Title);
                     //alert(SurveyTitles);
                 }
+                alldata = jsonObject.response;
                 let options = document.getElementById("SurveyTitle");
                 const select = document.querySelector('select'); 
                 for (var i = 0; i < SurveyTitles.length; i++) {
@@ -154,6 +156,21 @@ function generateResults(Sid) {
     }
     let tmp = { Sid:Sid.value };
 	let jsonPayload = JSON.stringify(tmp);
+
+    console.log(alldata);
+    for(let k = 0; k < alldata.length; k++) {
+        if(alldata[k].Sid == Sid.value) {
+            console.log(alldata[k]);
+            let currentDiv = document.getElementById("Copy");
+            let divClone = currentDiv.cloneNode(true);
+            divClone.setAttribute('name', "save");
+            divClone.innerHTML = "<h4>" + "Title: " + alldata[k].Title  + "</h4>" + "<br>" 
+            + "<h4>" + "Description: " + alldata[k].Description  + "</h4>" + "<br>" +
+            "<h4>" + "Start_Date: " + alldata[k].Start_Date  + "</h4>" + "<br>" + 
+            "<h4>" + "End_Date: " + alldata[k].End_Date  + "</h4>" + "<br>";
+            document.getElementById("after").appendChild(divClone);
+        }
+    }
 
     T1AnsURL = 'http://localhost/get_type1results.php';
     T2AnsURL = 'http://localhost/get_type2results.php';
