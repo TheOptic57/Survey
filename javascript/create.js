@@ -28,8 +28,12 @@ function SubmitSurvey() {
     const arrayofquestiontype = document.getElementsByName("QuestionType");
     let title = document.getElementById("surveyTitle").value;
     let desc = document.getElementById("surveyDesc").value;
-    let questionlist = "";
-    let questiontypelist = "";
+    let start = document.getElementById("surveyStart").value;
+    let end = document.getElementById("surveyEnd").value;
+    let person = document.getElementById("surveyPerson").value;
+    let questionlist = [];
+    let questiontypelist = [];
+    
 
     //check to see if blank/null
     if(title===null || title==="" || typeof title === 'undefined') {
@@ -42,12 +46,40 @@ function SubmitSurvey() {
     }
     //check to see if all questions are filled
     for(var i = 1; i <= numinput; i++) {
-        questionlist = questionlist + arrayofquestion[i].value + " ";
+        questionlist.push(arrayofquestion[i].value);
         if(arrayofquestion[i].value===null || arrayofquestion[i].value==="") {
             document.getElementById("blankquestion").innerHTML = "Please fill out all the questions";
             return
         }
-        questiontypelist = questiontypelist + arrayofquestiontype[i].value + " ";
+        questiontypelist.push(arrayofquestiontype[i].value);
     }
-    window.location.href = "/homepage.html";
+    
+    let tmp = {Title:title, Description:desc, Start_Date:start, End_Date:end, email:person, Is_Complete:"TRUE"};
+	let jsonPayload = JSON.stringify(tmp);
+
+	let url = 'http://localhost/create_survey.php';
+
+    let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try {
+		xhr.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				let jsonObject = JSON.parse(xhr.responseText);
+				if (jsonObject.status == 'failure') {
+					document.getElementById("nosurvey").innerHTML = "Error no surveys to be taken";
+					return;
+				}
+                localStorage.setItem("CreationID", jsonObject.response);
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch (err) {
+		document.getElementById("nosurvey").innerHTML = err.message;
+	}
+    
+
+    //window.location.href = "/homepage.html";
 }
+
