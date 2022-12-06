@@ -1,3 +1,6 @@
+let printarray = "";
+let deleted;
+
 function GetResults() {
     let email = localStorage.getItem("email");
     let tmp = {email:email};
@@ -142,9 +145,13 @@ function GetResults() {
 }
 
 function generateResults(Sid) {
-    alert(Sid.value);
-    /*
-    let tmp = { Sid: 2 };
+    //alert(Sid.value);
+    deleted = Sid.value;
+    let addDiv = document.getElementById("Copy");
+    while (addDiv.firstChild) {
+        addDiv.removeChild(addDiv.lastChild);
+    }
+    let tmp = { Sid:Sid.value };
 	let jsonPayload = JSON.stringify(tmp);
 
     T1AnsURL = 'http://localhost/get_type1results.php';
@@ -170,9 +177,17 @@ function generateResults(Sid) {
 
 				T1Ans = jsonObject.response;
                 console.log(T1Ans);
-
+                //alert(T1Ans.length);
+                
+                let currentDiv = document.getElementById("Copy");
+                let divClone = currentDiv.cloneNode(true);
+                divClone.setAttribute('name', "save");
+                divClone.innerHTML = "<h4>" + T1Ans[0].Question  + "</h4>" + "<br>";
                 // calculates mean and variance.
                 T1Results = computeResults(T1Ans);
+                divClone.innerHTML = divClone.innerHTML + T1Results.get(1);
+                printarray = printarray + divClone.innerHTML;
+                document.getElementById("after").appendChild(divClone);
 			}
 		};
 		T1xhr.send(jsonPayload);
@@ -203,6 +218,19 @@ function generateResults(Sid) {
                 else{
                     T2Ans = jsonObject.response;
                     console.log(T2Ans);
+                    let currentDiv = document.getElementById("Copy");
+                    for (var i = 0; i < T2Ans.length; i++) {
+                        let divClone = currentDiv.cloneNode(true);
+                        divClone.setAttribute('name', "save");
+                        divClone.innerHTML = "Question: " + T2Ans[i].Question + "<br>" + "Answer: " + T2Ans[i].Answer + "<br>";
+                        printarray = printarray + divClone.innerHTML;
+                        document.getElementById("after").appendChild(divClone);
+                
+                    }
+                    let divClone = currentDiv.cloneNode(true);
+                    divClone.innerHTML = divClone.innerHTML + "<button onclick='saveDataToFile()'> Save Data</button>";
+                    
+                    document.getElementById("after").appendChild(divClone);
                 }
 				
 			}
@@ -212,19 +240,20 @@ function generateResults(Sid) {
 	catch (err) {
 		document.getElementById("loginResult").innerHTML = err.message; // DO we have a place to put errors? **
 	}
-    */
+    let currentDiv = document.getElementById("Copy");
+    let divClone = currentDiv.cloneNode(true);
+    divClone.innerHTML = divClone.innerHTML + "<button onclick='Delete()'> Delete</button>";
+    document.getElementById("after").appendChild(divClone);
 
 }
-function saveDataToFile(i) {
+function saveDataToFile() {
     let temp = document.createElement('div');
-    /*
+    alert(document.getElementsByName("save").innerHTML);
     //works but doesn't save format
-    temp.innerHTML = document.getElementById("cloned" + i).innerHTML;
+    temp.innerHTML = printarray;
     //in an attemp to save format
     var textconvert = temp.textContent;
-    */
-   //dumb solution wish I have something better
-   let textconvert = temptitle2[i] + "\n" + tempdesc[i] + "\n" + tempperiod[i] + "\n" + tempquestion[i]; 
+   
     
     // adds stuff to blob then prompts the users to download and saves in the download folder
     const a = document.createElement('a');
@@ -235,6 +264,7 @@ function saveDataToFile(i) {
     a.click();
 
 	URL.revokeObjectURL(a.href);
+   
 }
 function computeResults(T1Ans)
 {
@@ -249,7 +279,7 @@ function computeResults(T1Ans)
         {
             mean = total / numAnswers;
             variance = calculateVariance(mean, variables)
-            T1Results.set(key, [mean, variance]); 
+            T1Results.set(key, ["mean: " + mean, "variance: " + variance]); 
             key = T1Ans[i].T1id;
             total = 0;
             numAnswers = 0;
@@ -263,7 +293,7 @@ function computeResults(T1Ans)
     {
         mean = total / numAnswers;
         variance = calculateVariance(mean, variables)
-        T1Results.set(key, [mean, variance]); 
+        T1Results.set(key, ["mean: " + mean, "variance: " + variance]); 
         key = T1Ans[0].T1id;
     }
 
@@ -286,4 +316,25 @@ function calculateVariance(mean, variables)
 
     let variance = total / (variables.length);
     return variance;
+}
+function Delete() {
+    let tmp = {Sid:deleted};
+    let jsonPayload = JSON.stringify(tmp);
+    let url = 'http://localhost/delete_survey.php';
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    try {
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let jsonObject = JSON.parse(xhr.responseText);
+                if (jsonObject.status == 'failure') {
+                    return;
+                }
+            }
+        };
+        xhr.send(jsonPayload);
+    }
+    catch (err) {
+    }
 }

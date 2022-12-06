@@ -1,3 +1,5 @@
+let idarray = [];
+let typearray = [];
 function GetSurveyTitle() {
     let email = localStorage.getItem("email");
     let tmp = {email:email};
@@ -46,6 +48,7 @@ function GetSurveyTitle() {
 var menu = document.getElementById("SurveyTitle");
 
 function generateSurvey(surveyid) {
+    //alert(surveyid.value);
     //alert(survey.value);
     const getSurvey = document.getElementById('getSurvey');
     while (getSurvey.firstChild) {
@@ -73,8 +76,6 @@ function generateSurvey(surveyid) {
 					return;
 				}
                 //alert(jsonObject.response[0].T2id)
-                let idarray = [];
-                let typearray = [];
                 localStorage.setItem("QuestionIds", idarray);
                 localStorage.setItem("typearray", typearray);
                 for(let i = 0; i < jsonObject.response.length; i++) {
@@ -92,7 +93,8 @@ function generateSurvey(surveyid) {
                         newInput.setAttribute('cols', "60");
                         getSurvey.appendChild(newInput);
                         typearray.push(2);
-                        idarray.push(jsonObject.response[i].T2id)
+                        idarray.push(jsonObject.response[i].T2id);
+                        //alert(jsonObject.response[i].T2id);
                     }
                     else if(typeof jsonObject.response[i].T1id !== 'undefined') {
                         /*
@@ -117,7 +119,9 @@ function generateSurvey(surveyid) {
                         }
                         getSurvey.appendChild(newSelect);
                         typearray.push(1);
+                        //alert(jsonObject.response[i].T1id);
                         idarray.push(jsonObject.response[i].T1id)
+                        //alert(jsonObject.response[i].T1id);
                     }
                     else {
 
@@ -127,8 +131,6 @@ function generateSurvey(surveyid) {
                 button.innerHTML = "<button onclick='SubmitSurvey()'> Submit</button>";
                 const buttondiv = document.getElementById('buttonenter');
                 buttondiv.appendChild(button); 
-                localStorage.setItem("QuestionIds", idarray);
-                localStorage.setItem("typearray", typearray);
                 
 			}
 		};
@@ -142,22 +144,21 @@ function generateSurvey(surveyid) {
 function SubmitSurvey() {
     const array = document.getElementsByName("Question");
     //alert(array.length);
-    let ids = localStorage.getItem("QuestionIds");
-    let type = localStorage.getItem("typearray");
-    //alert(array[0].value)
-    //alert(type);
+    
+
     let Awnser = 0;
     let tempid = 0;
     for(let i = 0; i < array.length; i++) {
         Awnser = array[i].value;
-        tempid = ids[i*2];
-        if(type[i*2] == 1) {
+        tempid = idarray[i];
+        if(typearray[i] == 1) {
             type1(Awnser, tempid);
         }
         else {
             type2(Awnser, tempid);
         }
     }
+    
     
 }
 
