@@ -153,55 +153,63 @@ function SubmitSurvey() {
         else {
             type2(Awnser, tempid);
         }
-        
-    }
-    function type1(Awnser, T1id) {
-        let tmp = {Awnser:Awnser, T1id:T1id};
-        let jsonPayload = JSON.stringify(tmp);
-        let url = 'http://localhost/create_type1A.php';
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-        try {
-            xhr.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    let jsonObject = JSON.parse(xhr.responseText);
-                    if (jsonObject.status == 'failure') {
-                        document.getElementById("nosurvey").innerHTML = "Error unable to submit as api isn't working";
-                        
-                        return;
-                    }
-                }
-            };
-            xhr.send(jsonPayload);
-        }
-        catch (err) {
-            document.getElementById("nosurvey").innerHTML = err.message;
-        }
-    }
-
-    function type2(Awnser, T2id) {
-        let tmp = {Awnser:Awnser, T2id:T2id};
-        let jsonPayload = JSON.stringify(tmp);
-        let url = 'http://localhost/create_type2A.php';
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-        try {
-            xhr.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    let jsonObject = JSON.parse(xhr.responseText);
-                    if (jsonObject.status == 'failure') {
-                        document.getElementById("nosurvey").innerHTML = "Error unable to submit as api isn't working";
-                        return;
-                    }
-                }
-            };
-            xhr.send(jsonPayload);
-        }
-        catch (err) {
-            document.getElementById("nosurvey").innerHTML = err.message;
-        }
     }
     
+}
+
+function type1(Answer, T1id) {
+    if(Answer  == null || typeof(Answer) == undefined || Answer  == '' ||  
+    T1id  == null || typeof(T1id) == undefined || T1id  == '') {
+        return
+    }
+    let tmp = {Answer:Answer, T1id:T1id};
+    let jsonPayload = JSON.stringify(tmp);
+    let url = 'http://localhost/create_type1A.php';
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    try {
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let jsonObject = JSON.parse(xhr.responseText);
+                if (jsonObject.status == 'failure') {
+                    document.getElementById("nosurvey").innerHTML = "Error unable to submit as api isn't working";
+                    
+                    return;
+                }
+            }
+        };
+        xhr.send(jsonPayload);
+    }
+    catch (err) {
+        document.getElementById("nosurvey").innerHTML = err.message;
+    }
+}
+
+function type2(Answer, T2id) {
+    if(Answer  == null || typeof(Answer) == undefined || Answer  == '' ||  
+    T2id  == null || typeof(T2id) == undefined || T2id  == '') {
+        return
+    }
+    let tmp = {Answer:Answer, T2id:T2id};
+    let jsonPayload = JSON.stringify(tmp);
+    let url = 'http://localhost/create_type2A.php';
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    try {
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let jsonObject = JSON.parse(xhr.responseText);
+                if (jsonObject.status == 'failure') {
+                    document.getElementById("nosurvey").innerHTML = "Error unable to submit as api isn't working";
+                    return;
+                }
+            }
+        };
+        xhr.send(jsonPayload);
+    }
+    catch (err) {
+        document.getElementById("nosurvey").innerHTML = err.message;
+    }
 }
