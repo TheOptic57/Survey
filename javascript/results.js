@@ -7,6 +7,80 @@ let tempquestion = ["1","2","3","4","5"];
 function GetResults() {
     let tempmean1 = 20;
     let temptitle1 = "TEST TITLE 1"
+    let T1Ans, T2Ans, T1Results, T1AnsURL, T2AnsURL;
+
+    
+
+
+
+
+
+
+
+
+
+
+    let tmp = { Sid: 2 };
+	let jsonPayload = JSON.stringify(tmp);
+
+    T1AnsURL = 'http://localhost/get_type1results.php';
+    T2AnsURL = 'http://localhost/get_type2results.php';
+  
+
+    // Get surveys T1 Answers
+    let xhr = new XMLHttpRequest();
+	xhr.open("POST", T1AnsURL, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try {
+		xhr.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				let jsonObject = JSON.parse(xhr.responseText);
+
+                console.log("test");
+
+				if (jsonObject.status == 'failure') {
+					document.getElementById("loginResult").innerHTML = "Error incorrect Sid";
+					return;
+				}
+
+				T1Ans = jsonObject.response;
+                console.log(T1Ans);
+
+                // calculates mean and variance.
+                T1Results = computeResults(T1Ans);
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch (err) {
+        console.log("error message: " + err.message);
+		//document.getElementById("loginResult").innerHTML = err.message; // DO we have a place to put errors? **
+	}
+
+    /*
+    // Get surveys T2 Answers
+    xhr.open("POST", T2AnsURL, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try {
+		xhr.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				let jsonObject = JSON.parse(xhr.responseText);
+
+				if (jsonObject.status == 'failure') {
+					document.getElementById("loginResult").innerHTML = "Error incorrect Sid";
+					return;
+				}
+
+				T2Ans = jsonObject.response;
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch (err) {
+		document.getElementById("loginResult").innerHTML = err.message; // DO we have a place to put errors? **
+	}
+    */
+
 
 
     //document.getElementById("Copy").innerHTML = "<h4>" + temptitle1  + "</h4>" + "<br>" +  "Mean: " + tempmean1 + "<br>";
@@ -51,4 +125,55 @@ function saveDataToFile(i) {
     a.click();
 
 	URL.revokeObjectURL(a.href);
+}
+function computeResults(T1Ans)
+{
+    let T1Results = new Map();
+    let mean = 0, variance = 0, total = 0, numAnswers = 0, i = 0;
+    let variables = [];
+    let key = T1Ans[0].T1id;
+
+    for(i; i < T1Ans.length; i++)
+    {
+        if(key != T1Ans[i].T1id)
+        {
+            mean = total / numAnswers;
+            variance = calculateVariance(mean, variables)
+            T1Results.set(key, [mean, variance]); 
+            key = T1Ans[i].T1id;
+            total = 0;
+            numAnswers = 0;
+            variables = [];
+        }
+        total += T1Ans[i].Answer;
+        variables.push(T1Ans[i].Answer);
+        numAnswers++;
+    }
+    if(T1Results.size == 0)
+    {
+        mean = total / numAnswers;
+        variance = calculateVariance(mean, variables)
+        T1Results.set(key, [mean, variance]); 
+        key = T1Ans[0].T1id;
+    }
+
+    console.log(T1Results);
+    return T1Results;
+}
+function calculateVariance(mean, variables)
+{
+    let total = 0;
+    for(let i = 0; i < variables.length; i++)
+    {
+        variables[i] = variables[i] - mean;
+        variables[i] = variables[i] * variables[i];
+    }
+
+    for(let i = 0; i < variables.length; i++)
+    {
+        total += variables[i]
+    }
+
+    let variance = total / (variables.length);
+    return variance;
 }
