@@ -1,5 +1,6 @@
 let printarray = "";
 let deleted;
+let whymapitdoesntwork;
 
 function GetResults() {
     let email = localStorage.getItem("email");
@@ -185,7 +186,9 @@ function generateResults(Sid) {
                 divClone.innerHTML = "<h4>" + T1Ans[0].Question  + "</h4>" + "<br>";
                 // calculates mean and variance.
                 T1Results = computeResults(T1Ans);
-                divClone.innerHTML = divClone.innerHTML + T1Results.get(1);
+                console.log (T1Results);
+                divClone.innerHTML = divClone.innerHTML + whymapitdoesntwork;
+                
                 printarray = printarray + divClone.innerHTML;
                 document.getElementById("after").appendChild(divClone);
 			}
@@ -280,6 +283,7 @@ function computeResults(T1Ans)
             mean = total / numAnswers;
             variance = calculateVariance(mean, variables)
             T1Results.set(key, ["mean: " + mean, "variance: " + variance]); 
+            whymapitdoesntwork = "mean: " + mean + " variance: " + variance;
             key = T1Ans[i].T1id;
             total = 0;
             numAnswers = 0;
@@ -294,6 +298,7 @@ function computeResults(T1Ans)
         mean = total / numAnswers;
         variance = calculateVariance(mean, variables)
         T1Results.set(key, ["mean: " + mean, "variance: " + variance]); 
+        whymapitdoesntwork = "mean: " + mean + " variance: " + variance;
         key = T1Ans[0].T1id;
     }
 
